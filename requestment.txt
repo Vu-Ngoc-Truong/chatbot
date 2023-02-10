@@ -1,0 +1,6 @@
+flask
+playwright
+rich
+playsound
+gTTS
+SpeechRecognition
