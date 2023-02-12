@@ -12,9 +12,10 @@ while True :
     input_text = listen_audio(language).lower()
     if input_text == 'None' :
         continue
-    if ("exit" in input_text):
+    if ("tạm biệt" in input_text):
         break
+    print("ChatGPT:>>>")
     response = bot.ask(input_text)
-    print(response)  # prints the response from chatGPT
+    # print(response)  # prints the response from chatGPT
 
-    text_to_speech(response)
+    # text_to_speech(response)

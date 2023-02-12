@@ -15,6 +15,7 @@ from time import sleep
 from playwright.sync_api import sync_playwright
 from rich.console import Console
 from rich.markdown import Markdown
+from text_to_speech import text_to_speech
 
 VERSION = "0.3.13"
 
@@ -244,10 +245,12 @@ class ChatGPT:
                         chunk = full_event_message[last_len_msg:current_len_msg]
                         last_len_msg = current_len_msg
                         print(chunk)
+                        text_to_speech(chunk)
                         yield chunk
                     # If finish answer
                     elif len(eof_datas) > 0:
                         print(chunk)
+                        text_to_speech(chunk)
                         yield chunk
                 # chunk = full_event_message[len(last_event_msg):]
                 # last_event_msg = full_event_message

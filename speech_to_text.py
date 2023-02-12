@@ -38,7 +38,7 @@ def listen_audio(language='vi'):
         query = c.recognize_google(audio, language=language)
 
         # print('3')
-        print(query)
+        print("Customer: ",query)
 
         return query # Tra ve text
     except sr.UnknownValueError:
