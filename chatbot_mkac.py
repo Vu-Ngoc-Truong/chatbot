@@ -60,7 +60,7 @@ while True :
         # input_text = listen_audio(language).lower()
         if input_text == 'None' :
             continue
-        if ("tạm biệt" in input_text) or ("goodbye" in input_text):
+        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text):
             text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.")
             break
 
