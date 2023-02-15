@@ -16,6 +16,7 @@ from playwright.sync_api import sync_playwright
 from rich.console import Console
 from rich.markdown import Markdown
 from text_to_speech import text_to_speech
+import playsound
 
 VERSION = "0.3.13"
 
@@ -44,6 +45,7 @@ class ChatGPT:
 
     def __init__(self, headless: bool = True, browser="firefox", timeout=60):
         self.play = sync_playwright().start()
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
 
         try:
             playbrowser = getattr(self.play, browser)
@@ -204,6 +206,8 @@ class ChatGPT:
         last_len_msg = len(last_event_msg)
         start_time = time.time()
         count = 1
+        playsound.playsound(self.dir_path+ '/waiting.mp3', True)
+        # text_to_speech("Câu hỏi của bạn đang được gửi tới chat GPT, vui lòng chờ trong giây lát.")
         while True:
             eof_datas = self.page.query_selector_all(f"div#{self.eof_div_id}")
 
@@ -252,14 +256,6 @@ class ChatGPT:
                         print(chunk)
                         text_to_speech(chunk)
                         yield chunk
-                # chunk = full_event_message[len(last_event_msg):]
-                # last_event_msg = full_event_message
-                # end_sentence = [".", ",", "!", "?",":",";"]
-                # print("chunk {}: ".format(count))
-                # count += 1
-                # if chunk[-1] in end_sentence:
-                #     print(full_event_message)
-                # yield chunk
 
             # if we saw the eof signal, this was the last event we
             # should process and we are done
