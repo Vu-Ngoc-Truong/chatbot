@@ -13,16 +13,21 @@ def listen_audio(language='vi'):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     # print(dir_path)
     c = sr.Recognizer() # Khởi tạo biến nhận dạng giọng nói
-    c.energy_threshold = 700  # Ngưỡng năng lượng để xác định có lấy âm hay không.
+    c.energy_threshold = 500  # Ngưỡng năng lượng để xác định có lấy âm hay không.
     c.pause_threshold = 1 # Thời gian xác nhận đã dừng nói để kết thúc nghe.
     c.dynamic_energy_threshold = False  # Tự động xác định ngưỡng năng lượng
     try:
         with sr.Microphone() as source: # Lấy nguồn nói từ Microphone
 
             #c.pause_threshold = 1 # Dừng 2s trước khi nhận lệnh mới
-            c.adjust_for_ambient_noise(source, duration= 0.5)
-
-            print("energy_threshold: ", c.energy_threshold)
+            for count in range(5):
+                c.adjust_for_ambient_noise(source, duration= 2.0)
+                print("energy_threshold: ", c.energy_threshold)
+                count +=1
+                if c.energy_threshold < 800:
+                    break
+            if c.energy_threshold > 800:
+                return "None"
             buffer = source.stream.read(source.CHUNK)
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH)  # energy of the audio signal
             # print("energy: ", energy)

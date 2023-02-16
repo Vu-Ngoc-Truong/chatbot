@@ -5,4 +5,3 @@ playsound
 gTTS
 SpeechRecognition
 PyAudio
-ChatterBot

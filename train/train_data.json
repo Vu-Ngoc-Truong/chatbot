@@ -9,11 +9,7 @@
       "xin chào quý khách, tôi có thể giúp gì cho quý khách."
     ],
     [
-      "chào quý khách",
-      "xin chào quý khách, tôi có thể giúp gì cho quý khách."
-    ],
-    [
-      "greetings!",
+      "chào bạn",
       "xin chào quý khách, tôi có thể giúp gì cho quý khách."
     ],
     [
@@ -27,42 +23,6 @@
     [
       "goodbye",
       "tạm biệt quý khách, hẹn gặp lại quý khách."
-    ],
-    [
-      "địa chỉ công ty",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "địa chỉ công ty ở đâu",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "công ty ở đâu",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "địa chỉ công ty meiko",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "công ty meiko automation ở đâu",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "công ty meiko automation ở đâu thế ",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "công ty meiko ở đâu",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "công ty meiko ở đâu thế ",
-      "dia_chi_cong_ty_mkac"
-    ],
-    [
-      "địa chỉ công ty mkac",
-      "dia_chi_cong_ty_mkac"
     ],
     [
       "mật khẩu wifi",
@@ -81,49 +41,10 @@
       "cong_ty_mkac"
     ],
     [
-      "công ty meiko automation",
-      "cong_ty_mkac"
-    ],
-    [
-      "giới thiệu về công ty",
-      "cong_ty_mkac"
-    ],
-    [
-      "giới thiệu về công ty mkac",
-      "cong_ty_mkac"
-    ],
-    [
       "giới thiệu về công ty meiko automation",
       "cong_ty_mkac"
     ],
-    [
-      "biết gì về công ty mkac",
-      "cong_ty_mkac"
-    ],
-    [
-      "biết gì về công ty meiko automation",
-      "cong_ty_mkac"
-    ],
-    [
-      "bạn biết gì về công ty mkac",
-      "cong_ty_mkac"
-    ],
-    [
-      "bạn biết gì về meiko automation",
-      "cong_ty_mkac"
-    ],
-    [
-      "bạn biết gì về mkac",
-      "cong_ty_mkac"
-    ],
-    [
-      "bạn biết gì về công ty meiko automation",
-      "cong_ty_mkac"
-    ],
-    [
-      "công ty mkac là gì",
-      "cong_ty_mkac"
-    ],
+
     [
       "công ty meiko automation là gì",
       "cong_ty_mkac"
@@ -136,30 +57,7 @@
       "công ty meiko automation làm gì",
       "linh_vuc_cong_ty_mkac"
     ],
-    [
-      "công ty mkac hoạt động trong lĩnh vực nào",
-      "linh_vuc_cong_ty_mkac"
-    ],
-    [
-      "công ty meiko automation hoạt động trong lĩnh vực nào",
-      "linh_vuc_cong_ty_mkac"
-    ],
-    [
-      "lĩnh vực hoạt động của công ty mkac là gì",
-      "linh_vuc_cong_ty_mkac"
-    ],
-    [
-      "lĩnh vực hoạt động của công ty meiko automation là gì",
-      "linh_vuc_cong_ty_mkac"
-    ],
-    [
-      "giới thiệu về lĩnh vực hoạt động của công ty mkac",
-      "linh_vuc_cong_ty_mkac"
-    ],
-    [
-      "giới thiệu về  lĩnh vực hoạt động của công ty meiko automation",
-      "linh_vuc_cong_ty_mkac"
-    ],
+
     [
       "tập đoàn meiko",
       "tap_doan_meiko"
@@ -175,67 +73,6 @@
     [
       "lịch sử tập đoàn meiko",
       "tap_doan_meiko"
-    ],
-    [
-      "cho tôi biết về lịch sử tập đoàn meiko",
-      "tap_doan_meiko"
-    ],
-    [
-      "cho tôi biết về tập đoàn meiko",
-      "tap_doan_meiko"
-    ],
-    [
-      "biết gì về tập đoàn meiko",
-      "tap_doan_meiko"
-    ],
-    [
-      "bạn biết gì về tập đoàn meiko",
-      "tap_doan_meiko"
-    ],
-    [
-      "cho tôi thông tin về tập đoàn meiko",
-      "tap_doan_meiko"
-    ],
-    [
-      "cho tôi thông tin về meiko",
-      "tap_doan_meiko"
-    ],
-
-    [
-      "bạn là ai",
-      "srr_robot"
-    ],
-    [
-      "bạn là ai",
-      "srr_robot"
-    ],
-    [
-      "giới thiệu về bản thân",
-      "full_srr_robot"
-    ],
-    [
-      "bạn hãy giới thiệu về bản thân",
-      "full_srr_robot"
-    ],
-    [
-      "giới thiệu một chút về bản thân",
-      "full_srr_robot"
-    ],
-    [
-      "bạn hãy giới thiệu một chút về bản thân",
-      "full_srr_robot"
-    ],
-    [
-      "hãy giới thiệu về bản thân",
-      "full_srr_robot"
-    ],
-    [
-      "bạn có thể làm được gì",
-      "full_srr_robot"
-    ],
-    [
-      "bạn làm được gì",
-      "full_srr_robot"
     ],
     [
       "chức năng của bạn là gì",
