@@ -112,7 +112,7 @@ class ChatGPT:
     def process_string(self, string):
         result = ""
         for char in string:
-            if char in ".!?:;":
+            if char in ".!?:;-":
                 result = result + char
                 return result
             else:
