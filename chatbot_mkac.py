@@ -12,7 +12,7 @@ import time
 # init variable
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-use_speaker = True
+use_speaker = False
 input_text = ""
 language = "vi"
 
@@ -32,8 +32,8 @@ keyword_finded = ""
 
 while True :
     try:
-        # input_text = input("Mời bạn hỏi: ")
-        input_text = listen_audio(language).lower()
+        input_text = input("Mời bạn hỏi: ")
+        # input_text = listen_audio(language).lower()
         if input_text == "Keyboard Interrupted":
             break
         if input_text == 'None' :
@@ -68,7 +68,7 @@ while True :
                 continue
             # hỏi chatgpt với các câu hỏi đủ dài
             print("ChatGPT:>>")
-            response = chatbot_GPT.ask(input_text)
+            response = chatbot_GPT.ask(input_text, speak=use_speaker)
             # print(response)
 
     except KeyboardInterrupt:

@@ -66,6 +66,7 @@ class ChatGPT:
         self.conversation_id = None
         self.session = None
         self.timeout = timeout
+        self.answer_limit = 50
         atexit.register(self._cleanup)
 
     def _start_browser(self):
@@ -112,7 +113,7 @@ class ChatGPT:
     def process_string(self, string):
         result = ""
         for char in string:
-            if char in ".!?:;-":
+            if char in ".!?:;\n":
                 result = result + char
                 return result
             else:
@@ -120,7 +121,7 @@ class ChatGPT:
         return ""
 
 
-    def ask_stream(self, prompt: str):
+    def ask_stream(self, prompt: str, speak=False):
         if self.session is None:
             self.refresh_session()
 
@@ -245,16 +246,18 @@ class ChatGPT:
                     count += 1
                     last_event_msg = last_event_msg + self.process_string(chunk)
                     current_len_msg = len(last_event_msg)
-                    if last_len_msg < current_len_msg:
+                    if last_len_msg < current_len_msg and len(full_event_message) > (last_len_msg + 3):
                         chunk = full_event_message[last_len_msg:current_len_msg]
                         last_len_msg = current_len_msg
-                        print(chunk)
-                        text_to_speech(chunk)
+                        print("$#__",chunk)
+                        if speak:
+                            text_to_speech("EoF__",chunk)
                         yield chunk
                     # If finish answer
                     elif len(eof_datas) > 0:
                         print(chunk)
-                        text_to_speech(chunk)
+                        if speak:
+                            text_to_speech(chunk)
                         yield chunk
 
             # if we saw the eof signal, this was the last event we
@@ -266,7 +269,7 @@ class ChatGPT:
 
         self._cleanup_divs()
 
-    def ask(self, message: str) -> str:
+    def ask(self, message: str, speak=False) -> str:
         """
         Send a message to chatGPT and return the response.
 
@@ -276,7 +279,7 @@ class ChatGPT:
         Returns:
             str: The response received from OpenAI.
         """
-        response = list(self.ask_stream(message))
+        response = list(self.ask_stream(message,speak))
         return (
             reduce(operator.add, response)
             if len(response) > 0
