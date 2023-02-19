@@ -13,6 +13,7 @@ text_test = """Cá kho là món ăn truyền thống của Việt Nam, được 
 1/2-1 cốc nước lọc
 Cách mạng 4.0
 Ngọn núi cao 6.354 mét
+nhiều loại như abc v.v.
 Lưu ý: Nguyên liệu trên chỉ là nguyên liệu cơ bản để làm món cá kho, tùy theo khẩu vị mỗi người có thể thêm bớt gia vị để tạo ra món ăn phù hợp với sở thích."""
 
 # def count_up_to(n):
@@ -26,13 +27,36 @@ Lưu ý: Nguyên liệu trên chỉ là nguyên liệu cơ bản để làm món
 # print(list(num))
 
 def process_string(string):
+    # Neu chuoi qua ngan
+    if len(string) < 5:
+        return ""
     result = ""
-    for char in string:
-        if char in ".!?:;\n":
-            result = result + char
+
+    # tim lan luot cac ky tu ket thuc cau tu cuoi chuoi len
+    # string = "hello"
+    eos_char = "\n:?!;"
+
+    # Duyet tung phan tu trong eos (end of string)
+    for char in eos_char:
+        index = string.rfind(char)
+        # print("index: ", index)
+        # neu tim thay ky tu thi cat chuoi den sat ky tu
+        if index > 0:
+            result = string[:index+1]
             return result
-        else:
-            result = result + char
+    # Neu string du dai co the ngat tu dau "."
+    if len(string) > 100:
+        index1 = string.rfind('.')
+        if index1 > 0:
+            # Kiem tra xem co phai . dang so khong
+            digit1  = string[index1-1]
+            # digit2  = string[index1+1]
+            # neu truoc va sau dau . deu la so
+            if digit1.isdigit():
+                return ""
+            else:
+                result = string[:index1+1]
+                return result
     return ""
 
 result = ""

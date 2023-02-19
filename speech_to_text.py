@@ -14,9 +14,9 @@ def listen_audio(language='vi'):
     # print(dir_path)
     c = sr.Recognizer() # Khởi tạo biến nhận dạng giọng nói
     c.energy_threshold = 1000  # Ngưỡng năng lượng để xác định có lấy âm hay không.
-    c.pause_threshold = 1 # Thời gian xác nhận đã dừng nói để kết thúc nghe.
+    c.pause_threshold = 1.5 # Thời gian xác nhận đã dừng nói để kết thúc nghe.
     c.dynamic_energy_threshold = True  # Tự động xác định ngưỡng năng lượng
-    c.operation_timeout = 40  # Thời gian tối đa (theo giây) mà một hoạt động (ví dụ: yêu cầu API) có thể chạy trước khi hết thời gian chờ. Nếu giá trị được thiết lập là None, thì không có giới hạn thời gian chờ.
+    c.operation_timeout = 30  # Thời gian tối đa (theo giây) mà một hoạt động (ví dụ: yêu cầu API) có thể chạy trước khi hết thời gian chờ. Nếu giá trị được thiết lập là None, thì không có giới hạn thời gian chờ.
     try:
         with sr.Microphone() as source: # Lấy nguồn nói từ Microphone
 

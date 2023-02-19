@@ -111,15 +111,34 @@ class ChatGPT:
         self.page.evaluate(f"document.getElementById('{self.eof_div_id}').remove()")
 
     def process_string(self, string):
+        # Neu chuoi qua ngan
+        if len(string) < 50:
+            return ""
         result = ""
-        for char in string:
-            if char in ".!?:;\n":
-                result = result + char
+        # tim lan luot cac ky tu ket thuc cau tu cuoi chuoi len
+        eos_char = "\n:?!;"
+        # Duyet tung phan tu trong eos (end of string)
+        for char in eos_char:
+            index = string.rfind(char)
+            # print("index: ", index)
+            # neu tim thay ky tu thi cat chuoi den sat ky tu
+            if index > 0:
+                result = string[:index+1]
                 return result
-            else:
-                result = result + char
-        return ""
 
+        # Neu string du dai co the ngat tu dau "."
+        if len(string) > 100:
+            index1 = string.rfind('.')
+            if index1 > 0:
+                # Kiem tra xem co phai . dang so khong
+                digit1  = string[index1-1]
+                # neu truoc va sau dau . deu la so
+                if digit1.isdigit():
+                    return ""
+                else:
+                    result = string[:index1+1]
+                    return result
+        return ""
 
     def ask_stream(self, prompt: str, speak=False):
         if self.session is None:
@@ -246,16 +265,16 @@ class ChatGPT:
                     count += 1
                     last_event_msg = last_event_msg + self.process_string(chunk)
                     current_len_msg = len(last_event_msg)
-                    if last_len_msg < current_len_msg and len(full_event_message) > (last_len_msg + 3):
+                    if last_len_msg < current_len_msg:
                         chunk = full_event_message[last_len_msg:current_len_msg]
                         last_len_msg = current_len_msg
                         print("$#__",chunk)
                         if speak:
-                            text_to_speech("EoF__",chunk)
+                            text_to_speech(chunk)
                         yield chunk
                     # If finish answer
                     elif len(eof_datas) > 0:
-                        print(chunk)
+                        print("eof__", chunk)
                         if speak:
                             text_to_speech(chunk)
                         yield chunk

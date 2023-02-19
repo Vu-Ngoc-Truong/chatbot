@@ -6,8 +6,6 @@ import playsound
 from gtts import gTTS
 # import time
 # import sys
-# import wikipedia
-# wikipedia.set_lang('vi')
 
 def text_to_speech(text, language='vi'):
     if text == None or text == "":
