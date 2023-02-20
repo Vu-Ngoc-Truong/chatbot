@@ -66,7 +66,6 @@ class ChatGPT:
         self.conversation_id = None
         self.session = None
         self.timeout = timeout
-        self.answer_limit = 50
         atexit.register(self._cleanup)
 
     def _start_browser(self):
@@ -226,8 +225,9 @@ class ChatGPT:
         last_len_msg = len(last_event_msg)
         start_time = time.time()
         count = 1
-        playsound.playsound(self.dir_path+ '/waiting.mp3', True)
-        # text_to_speech("Câu hỏi của bạn đang được gửi tới chat GPT, vui lòng chờ trong giây lát.")
+        if speak:
+            # text_to_speech("Tôi đã nhận được câu hỏi của bạn, vui lòng chờ trong giây lát.")
+            playsound.playsound(self.dir_path+ '/waiting.mp3', True)
         while True:
             eof_datas = self.page.query_selector_all(f"div#{self.eof_div_id}")
 
@@ -265,7 +265,8 @@ class ChatGPT:
                     count += 1
                     last_event_msg = last_event_msg + self.process_string(chunk)
                     current_len_msg = len(last_event_msg)
-                    if last_len_msg < current_len_msg:
+                    # if chunk > 3 charater
+                    if (last_len_msg + 3)< current_len_msg:
                         chunk = full_event_message[last_len_msg:current_len_msg]
                         last_len_msg = current_len_msg
                         print("$#__",chunk)

@@ -10,7 +10,7 @@ from selenium.webdriver.firefox.service import Service
 
 # Khai báo thông tin đăng nhập
 email = "vungoctruong8x@gmail.com"
-password = "Tqvngoogle@89"
+password = "abc123456"
 
 # Tạo đối tượng Service với đường dẫn đến trình điều khiển geckodriver
 gecko_path = '/home/ngoctruong/SETUP/geckodriver'

@@ -12,7 +12,7 @@ import time
 # init variable
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-use_speaker = True
+use_speaker = False
 input_text = ""
 language = "vi"
 
@@ -25,15 +25,15 @@ with open(dir_path + '/train/train_dict.json') as json_file:
 # get keyword default dictionnary
 with open(dir_path + '/train/keywords_default.json') as json_file:
     keywords_dict = json.load(json_file)
-print(keywords_dict)
+# print(keywords_dict)
 
 have_keywords = False
 keyword_finded = ""
 
 while True :
     try:
-        # input_text = input("Mời bạn hỏi: ")
-        input_text = listen_audio(language).lower()
+        input_text = input("Mời bạn hỏi: ")
+        # input_text = listen_audio(language).lower()
         if input_text == "Keyboard Interrupted":
             break
         if (input_text == 'None') or (len(input_text) < 5) :
