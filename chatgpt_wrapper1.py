@@ -139,7 +139,7 @@ class ChatGPT:
                     return result
         return ""
 
-    def ask_stream(self, prompt: str, speak=False):
+    def ask_stream(self, prompt: str, speak=False, language="vi"):
         if self.session is None:
             self.refresh_session()
 
@@ -226,7 +226,7 @@ class ChatGPT:
         start_time = time.time()
         count = 1
         if speak:
-            # text_to_speech("Tôi đã nhận được câu hỏi của bạn, vui lòng chờ trong giây lát.")
+            # text_to_speech("Tôi đã nhận được câu hỏi của bạn, vui lòng chờ trong giây lát.", language)
             playsound.playsound(self.dir_path+ '/waiting.mp3', True)
         while True:
             eof_datas = self.page.query_selector_all(f"div#{self.eof_div_id}")
@@ -271,13 +271,13 @@ class ChatGPT:
                         last_len_msg = current_len_msg
                         print("$#__",chunk)
                         if speak:
-                            text_to_speech(chunk)
+                            text_to_speech(chunk,language)
                         yield chunk
                     # If finish answer
                     elif len(eof_datas) > 0:
                         print("eof__", chunk)
                         if speak:
-                            text_to_speech(chunk)
+                            text_to_speech(chunk, language)
                         yield chunk
 
             # if we saw the eof signal, this was the last event we
@@ -289,7 +289,7 @@ class ChatGPT:
 
         self._cleanup_divs()
 
-    def ask(self, message: str, speak=False) -> str:
+    def ask(self, message: str, speak=False, language="vi") -> str:
         """
         Send a message to chatGPT and return the response.
 
@@ -299,7 +299,7 @@ class ChatGPT:
         Returns:
             str: The response received from OpenAI.
         """
-        response = list(self.ask_stream(message,speak))
+        response = list(self.ask_stream(message,speak,language))
         return (
             reduce(operator.add, response)
             if len(response) > 0

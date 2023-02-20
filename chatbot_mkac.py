@@ -12,9 +12,9 @@ import time
 # init variable
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-use_speaker = False
+use_speaker = True
 input_text = ""
-language = "vi"
+language = "ja"
 
 # creat chatbot of chatGPT
 chatbot_GPT = ChatGPT()
@@ -36,13 +36,18 @@ while True :
         # input_text = listen_audio(language).lower()
         if input_text == "Keyboard Interrupted":
             break
-        if (input_text == 'None') or (len(input_text) < 5) :
+        if (input_text == 'None'): # or (len(input_text) < 3) :
             time.sleep(0.1)
             continue
 
         if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text):
             if use_speaker:
-                text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.")
+                if language == "vi":
+                    text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", language)
+                if language == "ja":
+                    text_to_speech("さようならお客様、またお会いしましょう。", language)
+                if language == "en":
+                    text_to_speech("Goodbye and see you again soon.", language)
             break
 
         # Kiểm tra từ khóa đặc biệt trong câu hỏi hay không
@@ -69,7 +74,7 @@ while True :
                 continue
             # hỏi chatgpt với các câu hỏi đủ dài
             print("ChatGPT:>>")
-            response = chatbot_GPT.ask(input_text, speak=use_speaker)
+            response = chatbot_GPT.ask(input_text, speak=use_speaker, language=language)
             # print(response)
 
     except KeyboardInterrupt:
@@ -79,4 +84,9 @@ while True :
     except:
         print("chatbot error!!!")
         if use_speaker:
-            text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.")
+            if language == "vi":
+                text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.", language)
+            if language == "ja":
+                text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", language)
+            if language == "en":
+                text_to_speech("Sorry, I had trouble finding the answer.", language)
