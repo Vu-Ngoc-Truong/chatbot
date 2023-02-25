@@ -115,7 +115,7 @@ class ChatGPT:
             return ""
         result = ""
         # tim lan luot cac ky tu ket thuc cau tu cuoi chuoi len
-        eos_char = "\n:?!;"
+        eos_char = "\n:?!;。"
         # Duyet tung phan tu trong eos (end of string)
         for char in eos_char:
             index = string.rfind(char)

@@ -37,10 +37,11 @@ while True :
         if input_text == "Keyboard Interrupted":
             break
         if (input_text == 'None'): # or (len(input_text) < 3) :
+            print("input text is None")
             time.sleep(0.1)
             continue
 
-        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text):
+        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text) or (u"ありがとう" in input_text):
             if use_speaker:
                 if language == "vi":
                     text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", language)
@@ -70,7 +71,8 @@ while True :
         else:
             # nếu không có keyword thì hỏi chatGPT
             # loại trừ những câu hỏi quá ngắn có thể do âm thanh nhiễu
-            if len(input_text) < 6:
+            if len(input_text) < 2:
+                print("input text is short: ", len(input_text))
                 continue
             # hỏi chatgpt với các câu hỏi đủ dài
             print("ChatGPT:>>")
