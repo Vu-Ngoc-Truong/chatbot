@@ -5,3 +5,4 @@ playsound
 gTTS
 SpeechRecognition
 PyAudio
+langid
