@@ -14,7 +14,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 use_speaker = True
 input_text = ""
-language = "vi"
+language = "ja"
 
 # creat chatbot of chatGPT
 chatbot_GPT = ChatGPT()
@@ -36,17 +36,17 @@ while True :
         input_text = listen_audio(language).lower()
         if input_text == "Keyboard Interrupted":
             break
-        if (input_text == 'None'): # or (len(input_text) < 3) :
+        if (input_text == ''): # or (len(input_text) < 3) :
             print("input text is None")
             time.sleep(0.1)
             continue
 
-        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text) or (u"ありがとう" in input_text):
+        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text): # or (u"ありがとう" in input_text):
             if use_speaker:
                 if language == "vi":
                     text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", language)
-                if language == "ja":
-                    text_to_speech("さようならお客様、またお会いしましょう。", language)
+                # if language == "ja":
+                #     text_to_speech("さようならお客様、またお会いしましょう。", language)
                 if language == "en":
                     text_to_speech("Goodbye and see you again soon.", language)
             break
@@ -71,7 +71,7 @@ while True :
         else:
             # nếu không có keyword thì hỏi chatGPT
             # loại trừ những câu hỏi quá ngắn có thể do âm thanh nhiễu
-            if len(input_text) < 2:
+            if len(input_text) < 3:
                 print("input text is short: ", len(input_text))
                 continue
             # hỏi chatgpt với các câu hỏi đủ dài

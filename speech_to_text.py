@@ -92,15 +92,15 @@ def listen_audio(language='vi', auto_language=False):
             except sr.WaitTimeoutError:
                 playsound.playsound(dir_path+ '/logoff.mp3', True)
                 print("WaitTimeoutError")
-                return 'None'
+                return ''
 
         return query # Tra ve text
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
-        return 'None'
+        return ''
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
-        return 'None'
+        return ''
     except KeyboardInterrupt:
         print ('Keyboard Interrupted')
         return 'Keyboard Interrupted'
@@ -111,7 +111,7 @@ def giao_tiep_voi_khach():
     while(True):
 
         try:
-            query = listen_audio().lower()
+            query = listen_audio("ja").lower()
             if query == "Keyboard Interrupted" or ("goodbye" in  query):
                 return
             time.sleep(0.1)
