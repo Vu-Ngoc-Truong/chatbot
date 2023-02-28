@@ -41,12 +41,12 @@ while True :
             time.sleep(0.1)
             continue
 
-        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text): # or (u"ありがとう" in input_text):
+        if (u"tạm biệt" in input_text) or (u"goodbye" in input_text) or (u"cảm ơn" in input_text) or (u"ありがとう" in input_text):
             if use_speaker:
                 if language == "vi":
                     text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", language)
-                # if language == "ja":
-                #     text_to_speech("さようならお客様、またお会いしましょう。", language)
+                if language == "ja":
+                    text_to_speech("さようならお客様、またお会いしましょう。", language)
                 if language == "en":
                     text_to_speech("Goodbye and see you again soon.", language)
             break
@@ -83,12 +83,12 @@ while True :
         print ('Keyboard Interrupted1')
         break
 
-    except:
-        print("chatbot error!!!")
-        if use_speaker:
-            if language == "vi":
-                text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.", language)
-            if language == "ja":
-                text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", language)
-            if language == "en":
-                text_to_speech("Sorry, I had trouble finding the answer.", language)
+    # except:
+    #     print("chatbot error!!!")
+    #     if use_speaker:
+    #         if language == "vi":
+    #             text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.", language)
+    #         if language == "ja":
+    #             text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", language)
+    #         if language == "en":
+    #             text_to_speech("Sorry, I had trouble finding the answer.", language)

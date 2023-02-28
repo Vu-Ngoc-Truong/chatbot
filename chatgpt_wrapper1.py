@@ -17,6 +17,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 from text_to_speech import text_to_speech
 import playsound
+import random
 
 VERSION = "0.3.13"
 
@@ -227,7 +228,8 @@ class ChatGPT:
         count = 1
         if speak:
             # text_to_speech("Tôi đã nhận được câu hỏi của bạn, vui lòng chờ trong giây lát.", language)
-            playsound.playsound(self.dir_path+ '/waiting.mp3', True)
+            song_id = random.randint(1, 3)
+            playsound.playsound(self.dir_path+ '/waiting' + str(song_id) + '.mp3', True)
         while True:
             eof_datas = self.page.query_selector_all(f"div#{self.eof_div_id}")
 
