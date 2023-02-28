@@ -14,7 +14,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 use_speaker = True
 input_text = ""
-language = "ja"
+language = "vi"
 
 # creat chatbot of chatGPT
 chatbot_GPT = ChatGPT()
@@ -32,8 +32,8 @@ keyword_finded = ""
 
 while True :
     try:
-        input_text = input("Mời bạn hỏi: ")
-        # input_text = listen_audio(language).lower()
+        # input_text = input("Mời bạn hỏi: ")
+        input_text = listen_audio(language).lower()
         if input_text == "Keyboard Interrupted":
             break
         if (input_text == 'None'): # or (len(input_text) < 3) :

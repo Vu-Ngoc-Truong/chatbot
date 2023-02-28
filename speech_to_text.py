@@ -48,8 +48,9 @@ def listen_audio(language='vi', auto_language=False):
 
                 # Auto detect language
                 if auto_language:
-                    confidences = {}
+                    confidences = []
                     query_list = []
+                    len_query_list = []
                     start_time = time.time()
 
                     for lang in languages_list:
@@ -59,21 +60,29 @@ def listen_audio(language='vi', auto_language=False):
                             if "alternative" in results:
                                 query_ = results['alternative'][0]['transcript']
                                 confidence = results['alternative'][0]['confidence']
+
                             else:
                                 query_ = ""
                                 confidence = 0
-                            query_list.append(query_)
-                            confidences.update({lang: confidence})
+
                         except:
                             print("Could not understand audio")
-                            query_list.append("")
-                            # confidences.update({lang: 0})
+                            query_ = ""
+                            confidence = 0
+
+                        confidences.append(confidence)
+                        query_list.append(query_)
+                        len_query_list.append(len(query_))
+
                     elapsed_time = time.time() - start_time
                     print("Time2:", elapsed_time)
                     print(query_list)
+                    print(len_query_list)
                     print(confidences)
                     # print(lang_result_list)
-                    index = query_list.index(min(len(query_list)))
+                    index_min = len_query_list.index(min(len_query_list))
+                    confidences[index_min] = 0
+                    index = confidences.index(max(confidences))
                     language = languages_list[index]
                     print("Language is: ", language)
                 # Recognizing audio file
@@ -102,7 +111,7 @@ def giao_tiep_voi_khach():
     while(True):
 
         try:
-            query = listen_audio(auto_language=True).lower()
+            query = listen_audio().lower()
             if query == "Keyboard Interrupted" or ("goodbye" in  query):
                 return
             time.sleep(0.1)
