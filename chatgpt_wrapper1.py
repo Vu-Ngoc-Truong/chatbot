@@ -112,7 +112,7 @@ class ChatGPT:
 
     def process_string(self, string):
         # Neu chuoi qua ngan
-        if len(string) < 50:
+        if len(string) < 15:
             return ""
         result = ""
         # tim lan luot cac ky tu ket thuc cau tu cuoi chuoi len
@@ -127,12 +127,12 @@ class ChatGPT:
                 return result
 
         # Neu string du dai co the ngat tu dau "."
-        if len(string) > 100:
+        if len(string) > 35:
             index1 = string.rfind('.')
             if index1 > 0:
                 # Kiem tra xem co phai . dang so khong
                 digit1  = string[index1-1]
-                # neu truoc va sau dau . deu la so
+                # neu truoc dau "." la so
                 if digit1.isdigit():
                     return ""
                 else:

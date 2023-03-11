@@ -21,7 +21,7 @@ def listen_audio(language='vi', auto_language=False):
     try:
         with sr.Microphone() as source: # Lấy nguồn nói từ Microphone
 
-            c.adjust_for_ambient_noise(source, duration= 4.0)
+            c.adjust_for_ambient_noise(source, duration= 2.0)
             # for count in range(5):
             #     c.adjust_for_ambient_noise(source, duration= 4.0)
             #     print("energy_threshold: ", c.energy_threshold)
@@ -40,7 +40,7 @@ def listen_audio(language='vi', auto_language=False):
             playsound.playsound(dir_path+ '/logon.mp3', True)
             print('Listening...')
             try:
-                audio = c.listen(source,timeout=10, phrase_time_limit= 15) # Biến audio là giá trị dạng chuỗi sau khi máy nghe và nhận dạng từ nguồn vào
+                audio = c.listen(source,timeout=10, phrase_time_limit= 20) # Biến audio là giá trị dạng chuỗi sau khi máy nghe và nhận dạng từ nguồn vào
                 playsound.playsound(dir_path+ '/logoff.mp3', True)
                 cropped_audio = audio.get_segment(0, 4000) # cắt lấy 5 giây đầu tiên
                 # with open("recording.wav", "wb") as f:
