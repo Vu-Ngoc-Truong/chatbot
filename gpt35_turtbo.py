@@ -10,10 +10,10 @@ import time
 import openai
 
 # API Key
-api_key = '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'
-openai.api_key = api_key
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+# print(openai.api_key)
 # organization of MEIKO
-openai.organization = "org-ORyxAR79nusDu86NyNXgXtC4"
+# openai.organization = "org-ORyxAR79nusDu86NyNXgXtC4"
 
 class Chatbot:
     def __init__(self, language='vi', use_speaker=True, use_ROS=False, max_tokens_ans=300):
@@ -27,7 +27,7 @@ class Chatbot:
             import rospy
             from std_msgs.msg import String
             self.pub = rospy.Publisher('chatbot_status', String, queue_size=10)
-            rospy.init_node('chatbot_talk')
+            # rospy.init_node('chatbot_talk')
             self.pub.publish(self.led_effect)
 
         # Number of user and assistant message is saved in conversation, if =0 is save all message
@@ -40,6 +40,9 @@ class Chatbot:
         if self.language == "en":
             self.short_msg = ".Short answer under " + str(self.max_tokens_ans) + " tokens."
 
+        vi_trans_str = "can you speak vietnamese"
+        en_trans_str = "can you speak english"
+        ja_trans_str = "can you speak japanese"
         # Set the behavior of the assistant, instructed with "You are a helpful assistant."
         self.conversation=[{"role": "system", "content": "You are a helpful assistant.Short answer under 300 tokens."}]
 
@@ -49,11 +52,18 @@ class Chatbot:
         with open(self.dir_path + '/train/keywords_default.json') as json_file:
             self.keywords_dict = json.load(json_file)
 
-    def run(self):
+    def text_to_speech(self, text, language="vi"):
+        self.pub.publish("PLAY_SOUND")
+        text_to_speech(text, language)
+
+    def run(self, use_mic=True):
         try:
             #####  Get input ask  ########
-            # input_text = input("Mời bạn hỏi: ")
-            input_text = self.listen_audio.listen( self.language).lower()
+            if use_mic:
+                input_text = self.listen_audio.listen( self.language).lower()
+            else:
+                input_text = input("Mời bạn hỏi: ")
+
             if input_text == "Keyboard Interrupted":
                 return "Keyboard Interrupted"
 
@@ -65,11 +75,11 @@ class Chatbot:
             if (u"goodbye" in input_text) or (u"cảm ơn" in input_text) or (u"ありがとう" in input_text):
                 if self.use_speaker:
                     if self.language == "vi":
-                        text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", self.language)
+                        self.text_to_speech("Tạm biệt quý khách, hẹn gặp lại quý khách.", self.language)
                     if self.language == "ja":
-                        text_to_speech("さようならお客様、またお会いしましょう。", self.language)
+                        self.text_to_speech("さようならお客様、またお会いしましょう。", self.language)
                     if self.language == "en":
-                        text_to_speech("Goodbye and see you again soon.", self.language)
+                        self.text_to_speech("Goodbye and see you again soon.", self.language)
                 return "Done"
 
             # Kiểm tra từ khóa đặc biệt trong câu hỏi hay không
@@ -88,7 +98,7 @@ class Chatbot:
                 response = self.data_dict[str(self.keywords_dict[keyword_finded])]
                 print("ChatBot:#", response)
                 if self.use_speaker:
-                    text_to_speech(response)
+                    self.text_to_speech(response)
             else:
                 # nếu không có keyword thì hỏi chatGPT
                 # # loại trừ những câu hỏi quá ngắn có thể do âm thanh nhiễu
@@ -122,10 +132,12 @@ class Chatbot:
                 answer = response['choices'][0]['message']['content']
                 # print(response)
                 if self.use_ROS:
-                    self.led_effect = "DONE"
+                    self.led_effect = "ANSWER"
                     self.pub.publish(self.led_effect)
-                print(response['usage'])
+                # print(response['usage'])
                 print("GPT-3.5: ", answer)
+                if self.use_speaker:
+                    self.text_to_speech(answer)
 
         except KeyboardInterrupt:
             print ('Keyboard Interrupted1')
@@ -138,17 +150,17 @@ class Chatbot:
                 self.pub.publish(self.led_effect)
             if self.use_speaker:
                 if self.language == "vi":
-                    text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.", self.language)
+                    self.text_to_speech("Xin lỗi, tôi đã gặp sự cố khi tìm câu trả lời.", self.language)
                 if self.language == "ja":
-                    text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", self.language)
+                    self.text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", self.language)
                 if self.language == "en":
-                    text_to_speech("Sorry, I had trouble finding the answer.", self.language)
+                    self.text_to_speech("Sorry, I had trouble finding the answer.", self.language)
             return "Error"
 
 
 if __name__ == '__main__':
 
-    chatbot_mkac = Chatbot(use_speaker=False,use_ROS=True)
+    chatbot_mkac = Chatbot(use_speaker=False,use_ROS=False)
     while(True):
         try:
             result = chatbot_mkac.run()

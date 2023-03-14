@@ -6,3 +6,4 @@ gTTS
 SpeechRecognition
 PyAudio
 langid
+openai
