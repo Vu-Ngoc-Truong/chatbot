@@ -40,9 +40,19 @@ class Chatbot:
         if self.language == "en":
             self.short_msg = ".Short answer under " + str(self.max_tokens_ans) + " tokens."
 
-        vi_trans_str = "can you speak vietnamese"
-        en_trans_str = "can you speak english"
-        ja_trans_str = "can you speak japanese"
+        self.vi_trans_str_list = ["can you speak vietnamese", "ベトナム語を話せますか", "bạn có thể nói tiếng việt không","bạn có thể nói được tiếng việt không"]
+        self.vi_confirm = "Vâng, tôi có thể nói tiếng Việt. Bạn cần tôi giúp gì không?"
+        self.en_trans_str_list = ["can you speak english", "bạn có thể nói tiếng anh không","bạn có thể nói được tiếng anh không", "英語を話せますか"]
+        self.en_confirm = "Yes, I can speak English. How can I assist you?"
+        self.ja_trans_str_list = ["can you speak japanese", "bạn có thể nói tiếng nhật không", "bạn có thể nói được tiếng nhật không","日本語を話せますか"]
+        self.ja_confirm = "はい、私は日本語を話すことができます。"
+        # Creat language dict data
+        self.language_dict = {}
+        self.language_dict["vi"] = {"trans_str": self.vi_trans_str_list, "confirm_str": self.vi_confirm}
+        self.language_dict["en"] = {"trans_str": self.en_trans_str_list, "confirm_str": self.en_confirm}
+        self.language_dict["ja"] = {"trans_str": self.ja_trans_str_list, "confirm_str": self.ja_confirm}
+        print(self.language_dict)
+
         # Set the behavior of the assistant, instructed with "You are a helpful assistant."
         self.conversation=[{"role": "system", "content": "You are a helpful assistant.Short answer under 300 tokens."}]
 
@@ -60,18 +70,37 @@ class Chatbot:
         try:
             #####  Get input ask  ########
             if use_mic:
+                print("language ask:", self.language)
                 input_text = self.listen_audio.listen( self.language).lower()
             else:
                 input_text = input("Mời bạn hỏi: ")
 
             if input_text == "Keyboard Interrupted":
-                return "Keyboard Interrupted"
+                return "Keyboard Interrupted", None
 
             if (input_text == ''):
                 print("input text is None")
                 time.sleep(0.1)
-                return "None"
+                return "None", None
 
+            # Transfer to other language
+            change_language = False
+            for lang in self.language_dict:
+                for lang_trans_str in self.language_dict[lang]["trans_str"]:
+                    if lang_trans_str in input_text:
+                        print(lang_trans_str)
+                        if self.language != lang:
+                            print("change language: {} --> {}".format(self.language, lang))
+                            self.language = lang
+                            change_language = True
+                            self.text_to_speech(self.language_dict[lang]["confirm_str"], self.language)
+                            return "Change Language", lang
+                        else:
+                            print("confirm language: ", lang)
+                            self.text_to_speech(self.language_dict[lang]["confirm_str"], self.language)
+                            return "Confirm Language", None
+
+            # Check break condition
             if (u"goodbye" in input_text) or (u"cảm ơn" in input_text) or (u"ありがとう" in input_text):
                 if self.use_speaker:
                     if self.language == "vi":
@@ -80,7 +109,7 @@ class Chatbot:
                         self.text_to_speech("さようならお客様、またお会いしましょう。", self.language)
                     if self.language == "en":
                         self.text_to_speech("Goodbye and see you again soon.", self.language)
-                return "Done"
+                return "Done",None
 
             # Kiểm tra từ khóa đặc biệt trong câu hỏi hay không
             have_keywords = False
@@ -98,7 +127,7 @@ class Chatbot:
                 response = self.data_dict[str(self.keywords_dict[keyword_finded])]
                 print("ChatBot:#", response)
                 if self.use_speaker:
-                    self.text_to_speech(response)
+                    self.text_to_speech(response, self.language)
             else:
                 # nếu không có keyword thì hỏi chatGPT
                 # # loại trừ những câu hỏi quá ngắn có thể do âm thanh nhiễu
@@ -137,14 +166,14 @@ class Chatbot:
                 # print(response['usage'])
                 print("GPT-3.5: ", answer)
                 if self.use_speaker:
-                    self.text_to_speech(answer)
+                    self.text_to_speech(answer, self.language)
 
         except KeyboardInterrupt:
             print ('Keyboard Interrupted1')
-            return "Keyboard Interrupted"
+            return "Keyboard Interrupted", None
 
-        except:
-            print("chatbot error!!!")
+        except Exception as e:
+            print("chatbot error: ", e )
             if self.use_ROS:
                 self.led_effect = "ERROR"
                 self.pub.publish(self.led_effect)
@@ -155,7 +184,7 @@ class Chatbot:
                     self.text_to_speech("申し訳ありませんが、答えを見つけるのに苦労しました。", self.language)
                 if self.language == "en":
                     self.text_to_speech("Sorry, I had trouble finding the answer.", self.language)
-            return "Error"
+            return "Error", None
 
 
 if __name__ == '__main__':

@@ -50,12 +50,12 @@ class ListenAudio:
                     self.pub.publish("LISTEN")
                 try:
                     start_time = time.time()
-                    audio = self.c.listen(source,timeout=10, phrase_time_limit= 15) # Biến audio là giá trị dạng chuỗi sau khi máy nghe và nhận dạng từ nguồn vào
+                    audio = self.c.listen(source,timeout=8, phrase_time_limit= 12) # Biến audio là giá trị dạng chuỗi sau khi máy nghe và nhận dạng từ nguồn vào
                     elapsed_time = time.time() - start_time
                     # print(audio.sample_width) # get sample width
                     # print(audio.sample_rate)  # get sample rate
                     # print("listen time: ", elapsed_time)
-                    if elapsed_time < 3.0:
+                    if elapsed_time < 2.0:
                         print("audio short")
                         # print(type(audio))
                         try:
