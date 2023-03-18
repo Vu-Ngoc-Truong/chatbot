@@ -33,12 +33,10 @@ class Chatbot:
         # Number of user and assistant message is saved in conversation, if =0 is save all message
         self.history_length = 1
         self.max_tokens_ans = max_tokens_ans
-        if self.language == "vi":
-            self.short_msg = ".Trả lời ngắn dưới " + str(self.max_tokens_ans) + " tokens"
-        if self.language == "ja":
-            self.short_msg = "。 " + str(self.max_tokens_ans) + " トークン未満の短い回答。"
-        if self.language == "en":
-            self.short_msg = ".Short answer under " + str(self.max_tokens_ans) + " tokens."
+
+        self.vi_short_msg = ".Trả lời ngắn dưới " + str(self.max_tokens_ans) + " tokens bằng tiếng Việt"
+        self.en_short_msg = ".Short answer under " + str(self.max_tokens_ans) + " tokens in English"
+        self.ja_short_msg = "。日本語で " + str(self.max_tokens_ans) + " トークン未満の短い回答。"
 
         self.vi_trans_str_list = ["can you speak vietnamese", "ベトナム語を話せますか", "bạn có thể nói tiếng việt không","bạn có thể nói được tiếng việt không"]
         self.vi_confirm = "Vâng, tôi có thể nói tiếng Việt. Bạn cần tôi giúp gì không?"
@@ -48,10 +46,10 @@ class Chatbot:
         self.ja_confirm = "はい、私は日本語を話すことができます。"
         # Creat language dict data
         self.language_dict = {}
-        self.language_dict["vi"] = {"trans_str": self.vi_trans_str_list, "confirm_str": self.vi_confirm}
-        self.language_dict["en"] = {"trans_str": self.en_trans_str_list, "confirm_str": self.en_confirm}
-        self.language_dict["ja"] = {"trans_str": self.ja_trans_str_list, "confirm_str": self.ja_confirm}
-        print(self.language_dict)
+        self.language_dict["vi"] = {"trans_str": self.vi_trans_str_list, "confirm_str": self.vi_confirm, "short_str": self.vi_short_msg}
+        self.language_dict["en"] = {"trans_str": self.en_trans_str_list, "confirm_str": self.en_confirm, "short_str": self.en_short_msg}
+        self.language_dict["ja"] = {"trans_str": self.ja_trans_str_list, "confirm_str": self.ja_confirm, "short_str": self.ja_short_msg}
+        # print(self.language_dict)
 
         # Set the behavior of the assistant, instructed with "You are a helpful assistant."
         self.conversation=[{"role": "system", "content": "You are a helpful assistant.Short answer under 300 tokens."}]
@@ -135,8 +133,10 @@ class Chatbot:
                 #     print("input text is short: ", len(input_text))
                 #     return "Short"
                 # hỏi chatgpt với các câu hỏi đủ dài
+                ask_str = input_text + self.language_dict[self.language]["short_str"]
+                print("ask string: ", ask_str)
+                self.conversation.append({"role": "user", "content": ask_str})
                 print("ChatGPT:>>")
-                self.conversation.append({"role": "user", "content": (input_text + self.short_msg)})
 
                 # Creat chatbot GPT 3.5 turbo
                 response = openai.ChatCompletion.create(
