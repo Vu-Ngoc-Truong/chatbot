@@ -28,7 +28,7 @@ class ListenAudio:
         try:
             with sr.Microphone() as source: # Lấy nguồn nói từ Microphone
 
-                self.c.adjust_for_ambient_noise(source, duration= 3.0)
+                self.c.adjust_for_ambient_noise(source, duration= 2.0)
                 # for count in range(5):
                 #     c.adjust_for_ambient_noise(source, duration= 4.0)
                 #     print("energy_threshold: ", c.energy_threshold)
